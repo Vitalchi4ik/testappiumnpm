@@ -11,6 +11,7 @@ import org.testng.annotations.Test;
 import static org.openqa.selenium.support.ui.ExpectedConditions.*;
 
 import java.net.URL;
+import java.util.concurrent.TimeUnit;
 
 public class SimpleTestAppium {
     @Test
@@ -25,9 +26,11 @@ public class SimpleTestAppium {
 
         AppiumDriver driver = new AndroidDriver(serverUrl, capabilities);
         WebDriverWait wait = new WebDriverWait(driver, 30);
+        driver.manage().timeouts().implicitlyWait(15, TimeUnit.SECONDS);
         //open url (but firstly you need add appium chromedriver, than to activate developer mode + accept debbuging
         driver.get("https://ek.ua/");
         //first step
+        wait.until(visibilityOf(driver.findElement(By.cssSelector("header > a.fast-search-show.fl-l"))));
         driver.findElement(By.cssSelector("header > a.fast-search-show.fl-l")).click();
         //second step
         wait.until(visibilityOf(driver.findElement(By.name("search_"))));
